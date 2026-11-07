@@ -1,0 +1,133 @@
+/* koskee kaikkia html elementtejä */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff9e9;
+  color: #304a36;
+}
+
+header {
+  background-color: white;
+  padding: 30px 5%;
+  border-bottom: 1px solid #f5e8b8;
+}
+
+header h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+  color: #304a36;
+}
+
+header p {
+  color: #655f49;
+}
+
+nav {
+  padding: 15px 5%;
+  background-color: white;
+  display: flex;
+  gap: 10px;
+}
+
+nav button {
+  margin-top: 0;
+}
+
+main {
+  padding: 30px 5%;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.filters input,
+.filters select {
+  padding: 13px;
+  border: 1px solid #e6c96a;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 14px;
+}
+
+.filters input {
+  flex: 2;
+}
+
+.filters select {
+  flex: 1;
+}
+
+.restaurant-section,
+.menu-section {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.restaurant-section h2,
+.menu-section h2 {
+  margin-bottom: 20px;
+}
+
+.restaurant-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.restaurant-card {
+  border: 1px solid #f5e8b8;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.restaurant-card p {
+  color: #544f3d;
+  margin-top: 8px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #567658;
+  color: white;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.menu-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button:hover {
+  background-color: #304a36;
+}
+
+.menu-content {
+  background-color: #fff9e9;
+  padding: 25px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+@media (max-width: 800px) {
+  .filters {
+    flex-direction: column;
+  }
+
+  .restaurant-list {
+    grid-template-columns: 1fr;
+  }
+}

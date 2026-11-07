@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suomen opiskelijaravintolat</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Suomen opiskelijaravintolat</h1>
+      <p>Löydä opiskelijalounas läheltäsi.</p>
+    </header>
+
+    <nav>
+      <button type="button">Kaikki ravintolat</button>
+      <button type="button">♥ Suosikit</button>
+    </nav>
+
+    <main>
+      <section class="filters">
+        <input type="search" placeholder="Etsi ravintolaa..." />
+
+        <!-- esimerkki valintalistat -->
+        <select>
+          <option value="">Kaikki kaupungit</option>
+          <option value="helsinki">Helsinki</option>
+          <option value="espoo">Espoo</option>
+          <option value="vantaa">Vantaa</option>
+        </select>
+
+        <select>
+          <option value="">Kaikki palveluntarjoajat</option>
+          <option value="sodexo">Sodexo</option>
+          <option value="compass">Compass Group</option>
+          <option value="unica">Unica</option>
+        </select>
+      </section>
+
+      <section class="restaurant-section">
+        <h2>Ravintolat</h2>
+
+        <!-- esimerkki ravintolakortit, korvataan myöhemmin js:llä -->
+        <div class="restaurant-list">
+          <article class="restaurant-card">
+            <h3>Esimerkkiravintola 1</h3>
+            <p>Helsinki · Sodexo</p>
+            <button type="button">☆ Suosikki</button>
+          </article>
+
+          <article class="restaurant-card">
+            <h3>Esimerkkiravintola 2</h3>
+            <p>Espoo · Unica</p>
+            <button type="button">☆ Suosikki</button>
+          </article>
+
+          <article class="restaurant-card">
+            <h3>Esimerkkiravintola 3</h3>
+            <p>Vantaa · Compass Group</p>
+            <button type="button">☆ Suosikki</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="menu-section">
+        <h2>Ruokalista</h2>
+
+        <p>Valitse ravintola nähdäksesi sen ruokalistan.</p>
+
+        <div class="menu-buttons">
+          <button type="button">Päivän ruokalista</button>
+          <button type="button">Viikon ruokalista</button>
+        </div>
+
+        <div class="menu-content">
+          <p>Ruokalista näytetään tässä.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
