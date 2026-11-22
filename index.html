@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="fi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Suomen opiskelijaravintolat</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
     <header>
@@ -13,63 +14,56 @@
     </header>
 
     <nav>
-      <button type="button">Kaikki ravintolat</button>
-      <button type="button">Suosikit</button>
+      <button type="button" id="all-restaurants-button">
+        Kaikki ravintolat
+      </button>
+      <button type="button" id="favorites-button">♥ Suosikit</button>
     </nav>
 
     <main>
       <section class="filters">
-        <input type="search" placeholder="Etsi ravintolaa..." />
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Etsi ravintolaa..."
+        />
 
-        <!-- esimerkki valintalistat -->
-        <select>
+        <!-- valintalistat -->
+        <select id="city-filter">
           <option value="">Kaikki kaupungit</option>
         </select>
 
-        <select>
+        <select id="company-filter">
           <option value="">Kaikki palveluntarjoajat</option>
         </select>
       </section>
 
-      <section class="restaurant-section">
+      <section class="restaurant-section" id="restaurant-section">
         <h2>Ravintolat</h2>
-
-        <!-- esimerkki ravintolakortit, korvataan myöhemmin js:llä -->
-        <div class="restaurant-list">
-          <article class="restaurant-card">
-            <h3>Esimerkkiravintola 1</h3>
-            <p>Tähän tulee myöhemmin lisätietoja</p>
-            <button type="button">☆ Suosikki</button>
-          </article>
-
-          <article class="restaurant-card">
-            <h3>Esimerkkiravintola 2</h3>
-            <p>Tähän tulee myöhemmin lisätietoja</p>
-            <button type="button">☆ Suosikki</button>
-          </article>
-
-          <article class="restaurant-card">
-            <h3>Esimerkkiravintola 3</h3>
-            <p>Tähän tulee myöhemmin lisätietoja</p>
-            <button type="button">☆ Suosikki</button>
-          </article>
+        <!-- ravintolakortit id-->
+        <div class="restaurant-list" id="restaurant-list">
+          <p>Ravintoloita ladataan...</p>
         </div>
       </section>
 
-      <section class="menu-section">
-        <h2>Ruokalista</h2>
+      <!-- Klikatun ravintolan näkymä -->
+      <dialog id="restaurant-dialog">
+        <button type="button" id="close-dialog">X</button>
 
-        <p>Valitse ravintola nähdäksesi sen ruokalistan.</p>
+        <h2 id="restaurant-name"></h2>
+        <p id="restaurant-info"></p>
 
         <div class="menu-buttons">
-          <button type="button">Päivän ruokalista</button>
-          <button type="button">Viikon ruokalista</button>
+          <button type="button" id="daily-menu-button">
+            Päivän ruokalista
+          </button>
+          <button type="button" id="weekly-menu-button">
+            Viikon ruokalista
+          </button>
         </div>
 
-        <div class="menu-content">
-          <p>Ruokalista näytetään tässä.</p>
-        </div>
-      </section>
+        <div id="menu-list"></div>
+      </dialog>
     </main>
   </body>
 </html>

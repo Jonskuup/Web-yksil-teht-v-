@@ -12,7 +12,7 @@ body {
 }
 
 header {
-  background-color: white;
+  background-color: #fff9e9;
   padding: 30px 5%;
   border-bottom: 1px solid #f5e8b8;
 }
@@ -88,6 +88,9 @@ main {
   border: 1px solid #f5e8b8;
   border-radius: 10px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .restaurant-card p {
@@ -109,6 +112,8 @@ button {
 .menu-buttons {
   display: flex;
   gap: 10px;
+  margin-top: 10px;
+  justify-content: center;
 }
 
 button:hover {
@@ -120,6 +125,118 @@ button:hover {
   padding: 25px;
   border-radius: 8px;
   margin-top: 15px;
+}
+
+#restaurant-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  padding: 35px;
+  padding-top: 5px;
+  border: none;
+  border-radius: 20px;
+  background-color: #fff9e9;
+  color: #304a36;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+#restaurant-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#restaurant-dialog h2 {
+  margin-top: 35px;
+  margin-bottom: 8px;
+  font-size: 26px;
+}
+
+#restaurant-dialog p {
+  color: #655f49;
+  margin-bottom: 25px;
+}
+
+/* Popupin sulkemispainike */
+#close-dialog {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  border: none;
+  background: none;
+  color: #304a36;
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0;
+}
+
+#restaurant-dialog #daily-menu-button,
+#restaurant-dialog #weekly-menu-button {
+  flex: 1;
+  padding: 13px;
+  margin-top: 0;
+  border: 1px solid #e6c96a;
+  border-radius: 10px;
+  background-color: #f5e8b8;
+  color: #304a36;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#restaurant-dialog #daily-menu-button:hover,
+#restaurant-dialog #weekly-menu-button:hover {
+  background-color: #ead58b;
+}
+
+#restaurant-dialog h3 {
+  margin-bottom: 15px;
+}
+
+.course-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.course-item h4 {
+  margin-bottom: 8px;
+}
+
+.course-item p {
+  margin-bottom: 5px;
+}
+
+.menu-day {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fff9e9;
+  border-radius: 10px;
+}
+
+.menu-day h3 {
+  margin-bottom: 10px;
+}
+
+.favorite-button {
+  display: block;
+  margin: 15px 0 0 0;
+  padding: 6px 12px;
+  font-size: 20px;
+  background-color: #f5e8b8;
+  color: #304a36;
+  align-self: flex-start;
+}
+
+.favorite-button:hover {
+  background-color: #ead58b;
+}
+
+.favorite-button.is-favorite {
+  color: #b94b50;
 }
 
 @media (max-width: 800px) {
