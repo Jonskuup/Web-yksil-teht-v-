@@ -5,7 +5,6 @@ const API_URL = "https://media2.edu.metropolia.fi/restaurant/api/v1";
 let allRestaurants = [];
 let selectedRestaurant = null;
 let favoriteRestaurants = JSON.parse(localStorage.getItem("favorites")) || [];
-
 let showFavorites = false;
 
 // Haetaan ravintolat REST APista
@@ -301,5 +300,265 @@ closeButton.addEventListener("click", () => {
   const restaurantDialog = document.querySelector("#restaurant-dialog");
   restaurantDialog.close();
 });
+
+// Kirjautumisikkunan elementit
+const authDialog = document.querySelector("#auth-dialog");
+const loginButton = document.querySelector("#login-button");
+const closeAuthDialog = document.querySelector("#close-auth-dialog");
+const userStatus = document.querySelector("#user-status");
+const logoutButton = document.querySelector("#logout-button");
+
+const loginSection = document.querySelector("#login-section");
+const registerSection = document.querySelector("#register-section");
+
+const showRegisterButton = document.querySelector("#show-register");
+const showLoginButton = document.querySelector("#show-login");
+
+const authMessage = document.querySelector("#auth-message");
+
+// Omat tiedot -ikkunan elementit
+const profileDialog = document.querySelector("#profile-dialog");
+const profileUsername = document.querySelector("#profile-username");
+const profileEmail = document.querySelector("#profile-email");
+const profileForm = document.querySelector("#profile-form");
+const profileMessage = document.querySelector("#profile-message");
+const closeProfileDialog = document.querySelector("#close-profile-dialog");
+
+let currentUser = null;
+
+// Avaa kirjautuminen ja sulkeminen
+loginButton.addEventListener("click", () => {
+  authDialog.showModal();
+});
+closeAuthDialog.addEventListener("click", () => {
+  authDialog.close();
+});
+
+// Kirjauutmisesta rekisteröitymiseen
+showRegisterButton.addEventListener("click", () => {
+  loginSection.hidden = true;
+  registerSection.hidden = false;
+  authMessage.textContent = "";
+});
+
+// Rekisteröitymislomake
+const registerForm = document.querySelector("#register-form");
+
+// Kirjautumislomake
+const loginForm = document.querySelector("#login-form");
+
+// Kirjautuminen
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  // Haetaan lomakkeen tiedot
+  const username = document.querySelector("#login-username").value;
+  const password = document.querySelector("#login-password").value;
+
+  try {
+    authMessage.textContent = "Kirjaudutaan sisään...";
+
+    // Lähetetään kirjautumistiedot APIlle
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.token) {
+      throw new Error(data.message || "Kirjautuminen epäonnistui.");
+    }
+
+    // Tallennetaan kirjautumistoken!
+    localStorage.setItem("token", data.token);
+    currentUser = data.data;
+    updateAuthUI(data.data.username);
+
+    authDialog.close();
+    loginForm.reset();
+  } catch (error) {
+    console.error("Kirjautumisvirhe:", error);
+    authMessage.textContent = error.message;
+  }
+});
+
+// Rekisteröityminen
+registerForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  // Haetaan lomakkeen tiedot
+  const username = document.querySelector("#register-username").value;
+  const email = document.querySelector("#register-email").value;
+  const password = document.querySelector("#register-password").value;
+
+  try {
+    authMessage.textContent = "Tarkistetaan käyttäjänimeä...";
+
+    // Tarkistetaan, onko käyttäjänimi vapaa
+    const checkResponse = await fetch(
+      `${API_URL}/users/available/${encodeURIComponent(username)}`,
+    );
+
+    if (!checkResponse.ok) {
+      throw new Error("Käyttäjänimen tarkistaminen epäonnistui.");
+    }
+
+    const checkData = await checkResponse.json();
+
+    if (!checkData.available) {
+      authMessage.textContent = "Käyttäjänimi on jo käytössä.";
+      return;
+    }
+
+    // Lähetetään rekisteröitymistiedot APIlle
+    const response = await fetch(`${API_URL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.data) {
+      throw new Error(data.message || "Rekisteröityminen epäonnistui.");
+    }
+
+    authMessage.textContent = data.message || "Rekisteröityminen onnistui!";
+
+    registerForm.reset();
+  } catch (error) {
+    console.error("Rekisteröitymisvirhe:", error);
+    authMessage.textContent = error.message;
+  }
+});
+
+// Vaihdetaan rekisteröitymisestä kirjautumiseen
+showLoginButton.addEventListener("click", () => {
+  registerSection.hidden = true;
+  loginSection.hidden = false;
+  authMessage.textContent = "";
+});
+
+// Päivitetään kirjautumistiedot
+const updateAuthUI = (username) => {
+  userStatus.textContent = `Kirjautunut: ${username}`;
+
+  userStatus.hidden = false;
+  loginButton.hidden = true;
+  logoutButton.hidden = false;
+};
+
+// Avataan omat tiedot
+userStatus.addEventListener("click", () => {
+  if (!currentUser) {
+    return;
+  }
+
+  profileUsername.textContent = `Käyttäjänimi: ${currentUser.username}`;
+  profileEmail.value = currentUser.email || "";
+
+  profileMessage.textContent = "";
+
+  profileDialog.showModal();
+});
+
+// Suljetaan omat tiedot
+closeProfileDialog.addEventListener("click", () => {
+  profileDialog.close();
+});
+
+// Tallennetaan sähköpostin muutokset
+profileForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const token = localStorage.getItem("token");
+  const newEmail = profileEmail.value.trim();
+
+  try {
+    const response = await fetch(`${API_URL}/users`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        email: newEmail,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Sähköpostin päivittäminen epäonnistui.");
+    }
+
+    currentUser.email = newEmail;
+    profileMessage.textContent = "Sähköposti päivitetty onnistuneesti!";
+  } catch (error) {
+    console.error("Sähköpostin päivittäminen epäonnistui:", error);
+    profileMessage.textContent = error.message;
+  }
+});
+
+// Onko käyttäjä kirjautunut sisään
+const checkLoginStatus = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    userStatus.hidden = true;
+    loginButton.hidden = false;
+    logoutButton.hidden = true;
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/users/token`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Kirjautuminen ei ole enää voimassa.");
+    }
+
+    const data = await response.json();
+    const user = data.data || data;
+
+    currentUser = user;
+    updateAuthUI(user.username);
+  } catch (error) {
+    console.error("Kirjautumistilan tarkistaminen epäonnistui:", error);
+
+    localStorage.removeItem("token");
+  }
+};
+
+// Kirjaudu ulos
+logoutButton.addEventListener("click", () => {
+  localStorage.removeItem("token");
+
+  currentUser = null;
+
+  userStatus.hidden = true;
+  loginButton.hidden = false;
+  logoutButton.hidden = true;
+});
+
+// Tarkistetaan kirjautumistila sivun latautuessa
+checkLoginStatus();
 
 getRestaurants();

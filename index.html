@@ -9,8 +9,18 @@
   </head>
   <body>
     <header>
-      <h1>Suomen opiskelijaravintolat</h1>
-      <p>Löydä opiskelijalounas läheltäsi.</p>
+      <div class="header-content">
+        <div>
+          <h1>Suomen opiskelijaravintolat</h1>
+          <p>Löydä opiskelijalounas läheltäsi.</p>
+        </div>
+
+        <div class="auth-controls">
+          <button type="button" id="user-status" hidden></button>
+          <button type="button" id="login-button">Kirjaudu sisään</button>
+          <button type="button" id="logout-button" hidden>Kirjaudu ulos</button>
+        </div>
+      </div>
     </header>
 
     <nav>
@@ -19,6 +29,68 @@
       </button>
       <button type="button" id="favorites-button">♥ Suosikit</button>
     </nav>
+
+    <!--Kirjautuminen osio-->
+    <dialog id="auth-dialog">
+      <button type="button" id="close-auth-dialog">X</button>
+
+      <div id="login-section">
+        <h2>Kirjaudu sisään</h2>
+
+        <form id="login-form">
+          <label for="login-username">Käyttäjänimi</label>
+          <input type="text" id="login-username" required />
+
+          <label for="login-password">Salasana</label>
+          <input type="password" id="login-password" required />
+
+          <button type="submit">Kirjaudu</button>
+        </form>
+
+        <p>Etkö ole vielä rekisteröitynyt?</p>
+        <button type="button" id="show-register">Rekisteröidy</button>
+      </div>
+
+      <div id="register-section" hidden>
+        <h2>Luo käyttäjätili</h2>
+
+        <form id="register-form">
+          <label for="register-username">Käyttäjänimi</label>
+          <input type="text" id="register-username" required />
+
+          <label for="register-email">Sähköposti</label>
+          <input type="email" id="register-email" required />
+
+          <label for="register-password">Salasana</label>
+          <input type="password" id="register-password" required />
+
+          <button type="submit">Rekisteröidy</button>
+        </form>
+
+        <p>Onko sinulla jo tunnus?</p>
+        <button type="button" id="show-login">Kirjaudu sisään</button>
+      </div>
+
+      <p id="auth-message"></p>
+    </dialog>
+
+    <!-- Omat tiedot osio -->
+    <dialog id="profile-dialog">
+      <button type="button" id="close-profile-dialog">X</button>
+
+      <h2>Omat tiedot</h2>
+
+      <p id="profile-username"></p>
+
+      <form id="profile-form">
+        <label for="profile-email">Sähköposti:</label>
+        <input type="email" id="profile-email" required />
+
+        <button type="submit">Tallenna muutokset</button>
+      </form>
+
+      <p id="profile-message"></p>
+    </dialog>
 
     <main>
       <section class="filters">
